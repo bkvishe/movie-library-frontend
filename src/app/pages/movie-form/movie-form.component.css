@@ -1,0 +1,17 @@
+.full-width {
+  width: 100%;
+}
+
+h2 {
+  text-align: center;
+}
+
+/* Ensure buttons are at the edges */
+button[mat-raised-button] {
+  margin-right: 8px; /* Adjust spacing for the left button */
+}
+
+/* This is optional, just to make sure the right-most button is at the edge */
+.mat-card-actions {
+  padding-right: 8px;
+}

@@ -1,0 +1,37 @@
+<div class="content-container">
+
+  <div class="search-section">
+    <mat-form-field appearance="fill">
+      <mat-label>Search</mat-label>
+      <input matInput (keydown.enter)="searchMovies($event)" />
+    </mat-form-field>
+    <button mat-raised-button color="primary" class="add-button" (click)="openModal()">Add Movie</button>
+  </div>
+
+
+  <mat-grid-list cols="4" gutterSize="10px" rowHeight="1:2.5">
+    <mat-grid-tile *ngFor="let movie of movies">
+      <div class="movie-card">
+        <div class="movie-header">
+          <h2 class="movie-title">{{ movie.name }}</h2>
+          <p class="movie-genre">Genre: {{ movie.genre }}</p>
+          <p class="movie-release-date">
+            Release Date: {{ movie.releaseYear }}
+          </p>
+        </div>
+        <img
+          src="{{ movie.posterUrl }}"
+          alt="Movie Poster"
+          class="movie-poster"
+        />
+        <div class="movie-info">
+          <p class="movie-description">{{ movie.details }}</p>
+          <div class="action-button">
+          <button color="primary" (click)="loadMovie(movie)" mat-raised-button>Edit</button>
+          <button color="warn" (click)="movie.movieId && deleteMovie(movie.movieId)" mat-raised-button>Delete</button>
+          </div>
+        </div>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

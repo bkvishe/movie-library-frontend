@@ -1,0 +1,52 @@
+<h2>Movie Details</h2>
+
+<form [formGroup]="movieForm" novalidate (ngSubmit)="onSubmit()">
+  <mat-card class="shipping-card">
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Name" formControlName="name">
+            <mat-error *ngIf="movieForm.get('name')?.hasError('required')">Name field is <strong>required</strong></mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Release Year" formControlName="releaseYear">
+            <mat-error *ngIf="movieForm.get('releaseYear')?.hasError('required')">Release year field is <strong>required</strong></mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Genre" formControlName="genre">
+            <mat-error *ngIf="movieForm.get('genre')?.hasError('required')">Genre field is <strong>required</strong></mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Poster Url" formControlName="posterUrl">
+            <mat-error *ngIf="movieForm.get('posterUrl')?.hasError('required')">Poster url field is <strong>required</strong></mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="Details" formControlName="details"></textarea>
+            <mat-error *ngIf="movieForm.get('details')?.hasError('required')">Details field is <strong>required</strong></mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit">Submit</button>
+      <button mat-raised-button (click)="onClose()" type="button">Close</button>
+    </mat-card-actions>
+  </mat-card>
+</form>
