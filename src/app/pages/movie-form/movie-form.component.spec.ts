@@ -19,12 +19,17 @@ describe('MovieFormComponent', () => {
   };
 
   const mockDialogData: IMovie = {
-    _id: 1,
-    title: 'Test Movie',
+    movieId: '1',
+    name: 'Test Movie',
     genre: "test",
-    description: "test",
+    details: "test",
     posterUrl: "test",
-    releaseDate: '2023-01-01',
+    releaseYear: '2023-01-01',
+    actors: '',
+    director: '',
+    rating: '',
+    duration: '',
+    language: ''
   };
 
   beforeEach(async () => {
@@ -60,11 +65,11 @@ describe('MovieFormComponent', () => {
   it('should patch form values if data is provided', () => {
     component.ngOnInit();
     expect(component.movieForm.value).toEqual(jasmine.objectContaining({
-      title: mockDialogData.title,
+      title: mockDialogData.name,
       genre: mockDialogData.genre,
-      description: mockDialogData.description,
+      description: mockDialogData.details,
       posterUrl: mockDialogData.posterUrl,
-      releaseDate: mockDialogData.releaseDate,
+      releaseDate: mockDialogData.releaseYear,
     }));
   });
 
@@ -78,7 +83,7 @@ describe('MovieFormComponent', () => {
     component.ngOnInit();
     component.onSubmit();
     tick();
-    expect(movieService.updateMovie).toHaveBeenCalledWith(mockDialogData._id as number, jasmine.any(Object));
+    expect(movieService.updateMovie).toHaveBeenCalledWith(mockDialogData.movieId as string, jasmine.any(Object));
     flush();
   }));
 

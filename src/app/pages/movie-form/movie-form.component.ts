@@ -14,34 +14,13 @@ import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {
-  MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE,
-  MatNativeDateModule,
-} from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { IMovie } from '../../models/movie.interface';
 import { MovieService } from '../../services/movie.service';
 
 @Component({
-  providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'en-US' },
-    {
-      provide: MAT_DATE_FORMATS,
-      useValue: {
-        parse: {
-          dateInput: 'DD-MM-YYYY',
-        },
-        display: {
-          dateInput: 'DD-MM-YYYY',
-          monthYearLabel: 'MMM YYYY',
-          dateA11yLabel: 'LL',
-          monthYearA11yLabel: 'MMMM YYYY',
-        },
-      },
-    },
-  ],
+  providers: [],
   selector: 'app-movie-form',
   standalone: true,
   imports: [
@@ -53,7 +32,6 @@ import { MovieService } from '../../services/movie.service';
     CommonModule,
     ReactiveFormsModule,
     MatSnackBarModule,
-    MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
     MatNativeDateModule,
@@ -80,9 +58,9 @@ export class MovieFormComponent implements OnInit {
     });
   }
 
-  onClose() {
+  onClose(action?: string, data?: IMovie) {
     this.resetEmployeeForm();
-    this.dialogRef.close();
+    this.dialogRef.close({ action, data });
   }
 
   ngOnInit(): void {
@@ -92,25 +70,17 @@ export class MovieFormComponent implements OnInit {
     }
   }
 
-  formatDate(date: string | Date): string {
-    const d = new Date(date);
-    const day = ('0' + d.getDate()).slice(-2);
-    const month = ('0' + (d.getMonth() + 1)).slice(-2);
-    const year = d.getFullYear();
-    return `${year}-${month}-${day}`;
-  }
-
   onSubmit() {
     if (this.movieForm.valid) {
       const payload = {
-        ...this.movieForm.value
+        ...this.movieForm.value,
       };
       if (this.data) {
         this.movieService
           .updateMovie(this.data.movieId as string, payload)
           .subscribe({
             next: (response: any) => {
-              this.onClose();
+              this.onClose('update', response.data);
               this.snackBar.open('Movie updated', 'Close', {
                 duration: 3000,
                 horizontalPosition: 'right',
@@ -128,7 +98,7 @@ export class MovieFormComponent implements OnInit {
       } else {
         this.movieService.createMovie(payload).subscribe({
           next: (response: any) => {
-            this.onClose();
+            this.onClose('add', response.data);
             this.snackBar.open('Movie added', 'Close', {
               duration: 3000,
               horizontalPosition: 'right',

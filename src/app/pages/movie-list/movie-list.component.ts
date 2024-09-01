@@ -4,6 +4,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import {FormsModule} from '@angular/forms';
 import {
   MatDialog,
   MatDialogModule,
@@ -29,15 +31,18 @@ import { MovieFormComponent } from '../movie-form/movie-form.component';
     MovieFormComponent,
     MatGridListModule,
     MatSnackBarModule,
+    MatIconModule,
+    FormsModule
   ],
   templateUrl: './movie-list.component.html',
   styleUrl: './movie-list.component.css',
 })
 export class MovieListComponent implements OnInit {
-  movie!: IMovie | undefined;
+  movie!: IMovie | any;
   movies: IMovie[] = [];
   isModalOpen: boolean = false;
   dialogRef!: MatDialogRef<any>;
+  value: string = "";
 
   constructor(
     private movieService: MovieService,
@@ -49,12 +54,25 @@ export class MovieListComponent implements OnInit {
     this.getAllMovies();
   }
 
+  trackByMovieId(index: number, movie: IMovie): string | any {
+    return movie.movieId;
+  }
+
+  searchMovies() {
+    this.getAllMovies(this.value);
+  }
+
+  clearSearchBar() {
+    this.value = ""
+    this.getAllMovies();
+  }
+
   getAllMovies(searchKeyword: string = "") {
     this.movieService.getAllMovies(searchKeyword).subscribe({
       next: (response) => {
         console.log({ response });
         if (response.data) {
-          this.movies = response.data;
+          this.movies = MovieService.movieList = response.data;
         }
       },
       error: (error) => {
@@ -67,38 +85,27 @@ export class MovieListComponent implements OnInit {
     });
   }
 
-  searchMovies(event: any) {
-    this.getAllMovies(event.target.value);
-  }
-
-  loadMovie(movie: IMovie) {
-    console.log({ movie });
-    this.movie = movie;
-    this.openModal();
-  }
-
-  openModal() {
-    console.log('this.movie', this.movie);
+  openModal(movie?: any, index?: number) {
     this.dialogRef = this.dialog.open(MovieFormComponent, {
       width: '700px',
-      data: this.movie,
+      data: movie,
     });
-
-    this.dialogRef.afterClosed().subscribe(() => {
-      this.movie = undefined;
-      this.getAllMovies();
+    this.movie = movie;
+    this.dialogRef.afterClosed().subscribe((data) => {
+      
+      if(data.action === 'add'){
+        this.movies.push({...data.data});
+      }
+      else if(data.action === 'update'){
+        this.movies[index as any] = {...data.data};
+      }
     });
   }
 
-  deleteMovie(id: string) {
+  deleteMovie(id: string, index: number) {
     this.movieService.deleteMovie(id).subscribe({
       next: (response) => {
-        // this.getAllMovies();
-        console.log({movies: this.movies});
-        this.movies = this.movies.filter((m) => {
-          return m.movieId !== id
-        });
-        console.log({movies2: this.movies});
+        this.movies.splice(index, 1);
         this.snackBar.open('Movie deleted', 'Close', {
           duration: 3000,
           horizontalPosition: 'right',

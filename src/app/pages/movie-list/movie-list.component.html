@@ -3,14 +3,16 @@
   <div class="search-section">
     <mat-form-field appearance="fill">
       <mat-label>Search</mat-label>
-      <input matInput (keydown.enter)="searchMovies($event)" />
+      <input matInput (keydown.enter)="searchMovies()" [(ngModel)]="value"/>
+      <button matSuffix mat-icon-button aria-label="Clear" (click)="clearSearchBar()">
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
     <button mat-raised-button color="primary" class="add-button" (click)="openModal()">Add Movie</button>
   </div>
 
-
   <mat-grid-list cols="4" gutterSize="10px" rowHeight="1:2.5">
-    <mat-grid-tile *ngFor="let movie of movies">
+    <mat-grid-tile *ngFor="let movie of movies; let i = index; trackBy: trackByMovieId">
       <div class="movie-card">
         <div class="movie-header">
           <h2 class="movie-title">{{ movie.name }}</h2>
@@ -20,15 +22,15 @@
           </p>
         </div>
         <img
-          src="{{ movie.posterUrl }}"
+          [src]="movie.posterUrl"
           alt="Movie Poster"
           class="movie-poster"
         />
         <div class="movie-info">
           <p class="movie-description">{{ movie.details }}</p>
           <div class="action-button">
-          <button color="primary" (click)="loadMovie(movie)" mat-raised-button>Edit</button>
-          <button color="warn" (click)="movie.movieId && deleteMovie(movie.movieId)" mat-raised-button>Delete</button>
+            <button color="primary" (click)="openModal(movie, i)" mat-raised-button>Edit</button>
+            <button color="warn" (click)="movie.movieId && deleteMovie(movie.movieId, i)" mat-raised-button>Delete</button>
           </div>
         </div>
       </div>

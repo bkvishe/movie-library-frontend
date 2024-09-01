@@ -13,6 +13,7 @@ import { environment } from '../../environments/environment';
 export class MovieService {
   url = `${environment.apiBaseUrl}/movies`;
   headers = new HttpHeaders().set('x-api-key', '123');
+  public static movieList: IMovie[] = [];
   constructor(
     private http: HttpClient
   ) { }
