@@ -15,7 +15,9 @@
         <div class="col">
           <mat-form-field class="full-width">
             <input matInput placeholder="Release Year" formControlName="releaseYear">
-            <mat-error *ngIf="movieForm.get('releaseYear')?.hasError('required')">Release year field is <strong>required</strong></mat-error>
+            <mat-error *ngIf="movieForm.get('releaseYear')?.invalid && movieForm.get('releaseYear')?.touched">
+              Invalid year
+            </mat-error>
           </mat-form-field>
         </div>
       </div>

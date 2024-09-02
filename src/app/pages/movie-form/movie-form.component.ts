@@ -51,7 +51,15 @@ export class MovieFormComponent implements OnInit {
   ) {
     this.movieForm = this.fb.group({
       name: [null, Validators.required],
-      releaseYear: [null, Validators.required],
+      releaseYear: [
+        null,
+        [
+          Validators.required,
+          Validators.pattern(/^\d{4}$/),
+          Validators.min(1888),
+          Validators.max(new Date().getFullYear()),
+        ],
+      ],
       genre: [null, Validators.required],
       actors: [null, Validators.required],
       director: [null, Validators.required],
@@ -75,8 +83,10 @@ export class MovieFormComponent implements OnInit {
 
   onSubmit() {
     if (this.movieForm.valid) {
+      console.log({movieForm: this.movieForm});
       const payload = {
         ...this.movieForm.value,
+        releaseYear: Number(this.movieForm.value.releaseYear)
       };
       if (this.data) {
         this.movieService
