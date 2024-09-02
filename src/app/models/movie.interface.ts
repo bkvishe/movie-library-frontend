@@ -4,10 +4,8 @@ export interface IMovie {
   details: string,
   genre: string,
   actors: string,
-  releaseYear: string,
+  releaseYear: number,
   director: string,
-  rating: string,
-  duration: string,
   language: string,
   posterUrl: string,
 }

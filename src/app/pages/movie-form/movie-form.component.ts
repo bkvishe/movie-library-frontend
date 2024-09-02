@@ -53,6 +53,9 @@ export class MovieFormComponent implements OnInit {
       name: [null, Validators.required],
       releaseYear: [null, Validators.required],
       genre: [null, Validators.required],
+      actors: [null, Validators.required],
+      director: [null, Validators.required],
+      language: [null, Validators.required],
       details: [null, Validators.required],
       posterUrl: [null, Validators.required],
     });

@@ -30,6 +30,30 @@
       <div class="row">
         <div class="col">
           <mat-form-field class="full-width">
+            <input matInput placeholder="Actors" formControlName="actors">
+            <mat-error *ngIf="movieForm.get('actors')?.hasError('required')">Actors field is <strong>required</strong></mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Director" formControlName="director">
+            <mat-error *ngIf="movieForm.get('director')?.hasError('required')">Director field is <strong>required</strong></mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Language" formControlName="language">
+            <mat-error *ngIf="movieForm.get('language')?.hasError('required')">Language field is <strong>required</strong></mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
             <input matInput placeholder="Poster Url" formControlName="posterUrl">
             <mat-error *ngIf="movieForm.get('posterUrl')?.hasError('required')">Poster url field is <strong>required</strong></mat-error>
           </mat-form-field>
